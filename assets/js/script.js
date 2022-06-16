@@ -104,12 +104,20 @@ var getMovieInfo = function(array) {
 
     // store these values in separate variables so we can easily push to an object and save
     var movieTitle = array.Title
-    console.log(movieTitle)
     var moviePlot = array.Plot
-    console.log(moviePlot)
 
+    // get the movie ID
     var movieID = array.imdbID
-    console.log(movieID)
+
+    // get the genres associated with the movie and add to an array
+    var movieGenre = array.Genre
+    var movieGenreArray = movieGenre.split(',')
+    for (var i = 0; i < movieGenreArray.length; i++) {
+        movieGenreArray[i] = movieGenreArray[i].trim()
+    }
+
+    // get the movie year
+    var movieYear = array.Year 
 
     var posterLinkSrc = array.Poster    
     var posterImg = document.createElement("img")
@@ -120,6 +128,8 @@ var getMovieInfo = function(array) {
 
     // Assign the values to the correct spot in the card
     movieCardTitleEl.textContent = movieTitle
+    // TODO: We may want to consider append this and adding additional information for display (like a link to IMDB,
+    // the director, year released, etc)
     movieCardPlotEl.textContent = moviePlot
 }
 
