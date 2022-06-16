@@ -89,9 +89,15 @@ var queryMovie = function() {
                 getMovieInfo(data)
            })
         } else {
+            // TODO: Update this to write the error to the page instead of using an error
             alert("Movie can't be found")
         }
     })
+        .catch(function(error) {
+            // Catch for any errors from the server
+            // TODO: Write error to the page instead of using an alert
+            alert("Unable to connect to the Open Movie Database");
+        })
 }
 
 var getMovieInfo = function(array) {
