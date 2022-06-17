@@ -13,8 +13,10 @@ var searchTerm = document.querySelector("#search-query")
 var apiKey = "9bad881e"
 var apiKeyWm = "dezhiaeTxsUtpXsaOovSaiqfdtPCqBGaEazypOmf"
 
-// Initialize empty array to store streaming service settings
+// Initialize empty arrays to store streaming service settings and previous search results
 var streamingSettings = []
+var prevMovieSearchs = []
+
 
 var saveSettingsHandler = function(event) {
     event.preventDefault()
@@ -85,11 +87,9 @@ var queryMovie = function() {
     fetch(apiUrl)
         .then(function(response) {
 
-        console.log(response)
         // request was successful
         if (response.ok) {
            response.json().then(function(data) {
-               console.log(data.Response)
 
                // OMDb API appears returns an OK status, but Response: False (as a string) if the movie can't be found. Process that with a toast to a user.
                if (data.Response === "False") {
@@ -150,42 +150,76 @@ var getMovieInfo = function(array) {
     // unhide the movide card since we're ready to displaty info!
     movieCardEl.classList.remove("movie-card")
 
-    // store these values in separate variables so we can easily push to an object and save
-    var movieTitle = array.Title
-    var moviePlot = array.Plot
-
-    // get the movie ID
-    var movieID = array.imdbID
-
-    queryServices(movieID)
-
-    // get the genres associated with the movie and add to an array
-    
-    var movieGenre = array.Genre
-    var movieGenreArray = movieGenre.split(',')
-    for (var i = 0; i < movieGenreArray.length; i++) {
-        movieGenreArray[i] = movieGenreArray[i].trim()
+    // build an object with the properties we can about for the movie
+    var movieProperties = {
+        title: array.Title,
+        plot: array.Plot,
+        imdbID: array.imdbID,
+        year: array.Year,
+        postersrc: array.Poster
     }
 
-    // get the movie year
-    var movieYear = array.Year 
+    queryServices(movieProperties.imdbID)
 
-    var posterLinkSrc = array.Poster    
+    // TODO -- Add in some handling for when there are no genres returned so we don't get an error from trying to split an empty string
+    // get the genres associated with the movie and add to an array. Commenting out for now
+    
+    // var movieGenre = array.Genre
+    // var movieGenreArray = movieGenre.split(',')
+    // for (var i = 0; i < movieGenreArray.length; i++) {
+    //     movieGenreArray[i] = movieGenreArray[i].trim()
+    // }
+
+    // var posterLinkSrc = array.Poster    
     var posterImg = document.createElement("img")
-    posterImg.setAttribute("src",posterLinkSrc)
+    posterImg.setAttribute("src",movieProperties.postersrc)
 
     // append the poster image to the poster img div
     posterEl.append(posterImg)
 
     // Assign the values to the correct spot in the card
-    movieCardTitleEl.textContent = movieTitle
+    movieCardTitleEl.textContent = movieProperties.title
     // TODO: We may want to consider append this and adding additional information for display (like a link to IMDB,
     // the director, year released, etc)
-    movieCardPlotEl.textContent = moviePlot
+    movieCardPlotEl.textContent = movieProperties.plot
+
+    // Look for the ID in the previous movie searches array to see if it's already saved. isMovieSaved will have a value of -1 
+    // if it's not included in the array
+    var isMovieSaved = prevMovieSearchs.findIndex(function(movie) {
+        return movie.imdbID == movieProperties.imdbID
+    })
+
+    // if the movie isn't already present in the array, let's add it
+    if(isMovieSaved === -1) {
+        prevMovieSearchs.push(movieProperties)
+    }
+
+    // save to local storage
+    saveMovieSearch(prevMovieSearchs)
+
+
+    
+    
+
+    // var index = peoples.findIndex(function(person) {
+    //     return person.attr1 == "john"
+    //   });
+
+
 }
+
+var saveMovieSearch = function(array) {
+    localStorage.setItem("previous-search-titles", JSON.stringify(array))
+}
+
+var loadMovieSearch = function() {
+    prevMovieSearchs = JSON.parse(localStorage.getItem("previous-search-titles")) || []
+}
+
 
 // Function calls on page load
 loadSettings()
+loadMovieSearch()
 checkSettings(streamingSettings)
 
 
