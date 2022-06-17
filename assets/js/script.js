@@ -79,25 +79,39 @@ var checkSettings = function(array) {
 
 // Make an OMDb API call to get information about the movie searched for
 var queryMovie = function() {
-    var apiUrl = "http://www.omdbapi.com/?t=" + searchTerm.value + "&apiKey=" + apiKey
+    var apiUrl = "http://www.omdbapi.com/?t=" + searchTerm.value + "&type=movie&apiKey=" + apiKey
 
     // make a request to the url
     fetch(apiUrl)
         .then(function(response) {
+
+        console.log(response)
         // request was successful
         if (response.ok) {
            response.json().then(function(data) {
+               console.log(data.Response)
+
+               // OMDb API appears returns an OK status, but Response: False (as a string) if the movie can't be found. Process that with a toast to a user.
+               if (data.Response === "False") {
+                // specify what we want in the toast alert
+                var errorMsg1 = "<span>Movie not be found! Please try your search again.</span><button class='btn-flat toast-action' onclick='M.Toast.dismissAll()'>OK</button>"
+                M.toast({html: errorMsg1})
+                return
+               }
+
+               // otherwise, we're okay to process the data that gets passed in
                 getMovieInfo(data)
            })
         } else {
-            // TODO: Update this to write the error to the page instead of using an error
-            alert("Movie can't be found")
+            // Display a toast instead of an alert
+            var errorMsg2= "<span>Movie not be found! Please try your search again.</span><button class='btn-flat toast-action' onclick='M.Toast.dismissAll()'>OK</button>"
+            M.toast({html: errorMsg2})
         }
     })
         .catch(function(error) {
             // Catch for any errors from the server
-            // TODO: Write error to the page instead of using an alert
-            alert("Unable to connect to the Open Movie Database");
+            var errorMsg3="<span>Unable to connect to the Open Movie Database. Please try again later.</span><button class='btn-flat toast-action' onclick='M.Toast.dismissAll()'>OK</button>"
+            M.toast({html: errorMsg3})
         })
 }
 
@@ -146,6 +160,7 @@ var getMovieInfo = function(array) {
     queryServices(movieID)
 
     // get the genres associated with the movie and add to an array
+    
     var movieGenre = array.Genre
     var movieGenreArray = movieGenre.split(',')
     for (var i = 0; i < movieGenreArray.length; i++) {
