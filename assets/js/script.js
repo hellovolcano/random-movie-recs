@@ -11,6 +11,7 @@ var streamingLinksEl = document.querySelector("#streaming-links")
 var searchTerm = document.querySelector("#search-query")
 
 var apiKey = "9bad881e"
+var apiKeyWm = "dezhiaeTxsUtpXsaOovSaiqfdtPCqBGaEazypOmf"
 
 // Initialize empty array to store streaming service settings
 var streamingSettings = []
@@ -100,6 +101,33 @@ var queryMovie = function() {
         })
 }
 
+// Make an watchmode API call to get information about the selected streaming services
+var queryServices = function(titleId) {
+
+    var apiUrl = "https://api.watchmode.com/v1/title/" + titleId + "/sources/?apiKey=" + apiKeyWm 
+
+    // make a request to the url
+    fetch(apiUrl)
+        .then(function(response) {
+        // request was successful
+        if (response.ok) {
+           response.json().then(function(data) {
+                console.log(data)
+           })
+        } else {
+            // TODO: Update this to write the error to the page instead of using an error
+            alert("Services can't be found")
+        }
+    })
+        .catch(function(error) {
+            // Catch for any errors from the server
+            // TODO: Write error to the page instead of using an alert
+            alert("Unable to find streaming services");
+        })
+}
+
+
+
 var getMovieInfo = function(array) {
 
     // reset the content to blank before each search so things don't get weird
@@ -114,6 +142,8 @@ var getMovieInfo = function(array) {
 
     // get the movie ID
     var movieID = array.imdbID
+
+    queryServices(movieID)
 
     // get the genres associated with the movie and add to an array
     var movieGenre = array.Genre
