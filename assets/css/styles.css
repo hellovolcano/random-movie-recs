@@ -6,17 +6,22 @@
 h1  {
     text-shadow: 2px 2px 2px #1d0c0c;
     font-family: 'Lobster', cursive ;
+    display: inline-block
 }
 
 /* Streaming Sources Styles */
 .search-settings {
     background-color: lightgray;
     padding: 10px;
-    margin-top: 5px;
+    /* margin-top: 5px; */
 }
 
+i  {
+    color: white;
+    justify-content: right;
+}
 .streaming-sources {
-    margin: 0 10px; */
+    margin: 0 10px;
     padding: 10px;
 }
 
@@ -24,8 +29,15 @@ h1  {
     display: none;
 }
 
-.container {
-    background-image: linear-gradient(to top right, rgb(218, 41, 41), rgb(17, 13, 146));
+#movie-poster  {
+    justify-items: auto;
+}
+
+.section {
+    /* background-color: #180d6a; */
+    background-image: linear-gradient(rgb(255, 255, 255), rgb(9, 6, 54));
+    height: 500px;
+    width: auto;
 }
 
 .heading  {
@@ -42,10 +54,6 @@ h1  {
 
 li  {
     display: inline-block;
-}
-
-p  {
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
 .fa-facebook,
