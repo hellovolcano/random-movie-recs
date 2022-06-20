@@ -69,3 +69,19 @@ li  {
     border-radius: 50%;
     color: white;
   }
+
+ #search-q-div {
+     width: 70%
+ }
+
+  #search-Btn {
+
+      margin-left: 20px;
+      width: auto;
+
+  }
+
+  .flex {
+      display: flex;
+      /* flex-basis: 70%; */
+  }

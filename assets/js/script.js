@@ -9,6 +9,7 @@ var movieCardTitleEl = document.querySelector("#movie-title")
 var movieCardPlotEl = document.querySelector("#movie-plot")
 var streamingLinksEl = document.querySelector("#streaming-links")
 var searchTerm = document.querySelector("#search-query")
+var searchForm = document.querySelector("#search-form")
 
 var apiKey = "9bad881e"
 var apiKeyWm = "dezhiaeTxsUtpXsaOovSaiqfdtPCqBGaEazypOmf"
@@ -80,9 +81,10 @@ var checkSettings = function(array) {
 }
 
 // Make an OMDb API call to get information about the movie searched for
-var queryMovie = function() {
-    var apiUrl = "http://www.omdbapi.com/?t=" + searchTerm.value + "&type=movie&apiKey=" + apiKey
+var queryMovie = function(event) {
+    event.preventDefault()
 
+    var apiUrl = "https://www.omdbapi.com/?t=" + searchTerm.value + "&type=movie&apiKey=" + apiKey
     // make a request to the url
     fetch(apiUrl)
         .then(function(response) {
@@ -129,21 +131,29 @@ var queryServices = function(titleId) {
                 console.log(data)
            })
         } else {
-            // TODO: Update this to write the error to the page instead of using an error
-            alert("Services can't be found")
+            // Print an error to the page if we can't find streaming services
+            var noStreamingServices = document.createElement("p")
+            noStreamingServices.classList.add("error-message")
+            noStreamingServices.textContent = "Could not find any streaming services for " + searchTerm.value
+
+            movieInfoEl.append(noStreamingServices)
         }
     })
         .catch(function(error) {
             // Catch for any errors from the server
-            // TODO: Write error to the page instead of using an alert
-            alert("Unable to find streaming services");
+            var wmServerError = document.createElement("p")
+            wmServerError.classList.add("error-message")
+            wmServerError.textContent = "There was an issue connecting to the Watchmode API. Please try again later."
+
+            movieInfoEl.append(wmServerError)
         })
 }
 
+var validateData = function(string) {
 
+}
 
 var getMovieInfo = function(array) {
-
     // reset the content to blank before each search so things don't get weird
     posterEl.textContent = ""
 
@@ -170,18 +180,25 @@ var getMovieInfo = function(array) {
     //     movieGenreArray[i] = movieGenreArray[i].trim()
     // }
 
-    // var posterLinkSrc = array.Poster    
-    var posterImg = document.createElement("img")
-    posterImg.setAttribute("src",movieProperties.postersrc)
+    // only add the poster image to the page if we get something returned
+    if(movieProperties.postersrc !== "N/A") {
+        var posterImg = document.createElement("img")
+            posterImg.setAttribute("src",movieProperties.postersrc)
 
-    // append the poster image to the poster img div
-    posterEl.append(posterImg)
+            // append the poster image to the poster img div
+            posterEl.append(posterImg)
+    }
+    
 
     // Assign the values to the correct spot in the card
     movieCardTitleEl.textContent = movieProperties.title
-    // TODO: We may want to consider append this and adding additional information for display (like a link to IMDB,
-    // the director, year released, etc)
-    movieCardPlotEl.textContent = movieProperties.plot
+    
+    // Handle when we get a movie, but no plot
+    if (movieProperties.plot === "N/A") {
+        movieCardPlotEl.textContent = "The plot for this movie is not available."
+    } else {
+        movieCardPlotEl.textContent = movieProperties.plot
+    }
 
     // Look for the ID in the previous movie searches array to see if it's already saved. isMovieSaved will have a value of -1 
     // if it's not included in the array
@@ -196,14 +213,6 @@ var getMovieInfo = function(array) {
 
     // save to local storage
     saveMovieSearch(prevMovieSearchs)
-
-
-    
-    
-
-    // var index = peoples.findIndex(function(person) {
-    //     return person.attr1 == "john"
-    //   });
 
 
 }
@@ -227,4 +236,7 @@ checkSettings(streamingSettings)
 saveSettingsBtnEl.addEventListener("click" , saveSettingsHandler)
 
 // submit a query when we click the search button
-searchBtn.addEventListener("click", queryMovie)
+// searchBtn.addEventListener("click", queryMovie)
+
+// Listen for an "enter" press on the text field
+searchForm.addEventListener("submit", queryMovie)
