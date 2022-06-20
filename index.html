@@ -20,12 +20,12 @@
             <h1 class="white-text">
                 iStream uStream
             </h1>
-            <i class="large material-icons">play_circle_outline</i>
+            <i class="large material-icons hide-on-small-only">play_circle_outline</i>
         </div>
 
         <!-- Streaming service & Search bar -->
         <div class="row search-settings valign-wrapper">
-            <div class="col s8" id="streaming-settings">
+            <div class="col s8 hide-on-small-only" id="streaming-settings">
                 <p>
                     Select your streaming service providers:
                 </p>
@@ -50,16 +50,16 @@
                         <input type="checkbox" id="disney" />
                         <span>Disney+</span>
                     </label>
-                    <button class="btn waves-effect waves-light" type="submit" name="save-settings" id="save-settings">Save Settings</button>
+                    <button class="btn waves-effect waves-light blue darken-3" type="submit" name="save-settings" id="save-settings">Save Settings</button>
                 </form>
             </div>
 
-                <div class="input-field col s2">
+                <div class="input-field col l2 s8">
                     <input id="search-query" type="text" class="validate">
                     <label for="search-query">Search</label>
                 </div>
-                <div class="col s2">
-                    <button class="btn waves-effect waves-light" type="submit" name="search-Btn" id="search-Btn">Submit</button>
+                <div class="col l2 s4">
+                    <button class="btn waves-effect waves-light blue darken-3" type="submit" name="search-Btn" id="search-Btn">Submit</button>
                 </div>
         </div>
     </header>
@@ -68,11 +68,11 @@
         <!-- Movie Poster & Movie Info Section -->
         <div class="section">
             <div class="row">
-                <div id="movie-poster" class="col s5 center-align">
+                <div id="movie-poster" class="col l5 s12 center-align">
 
                 </div>
-                <div id="movie-info" class="col s6 left-align">
-                    <div class="card blue-grey darken-1 movie-card" id="movie-card-div">
+                <div id="movie-info" class="col l6 s12 center-align">
+                    <div class="card teal lighten-2 movie-card" id="movie-card-div">
                         <div class="card-content white-text" id="movie-card">
                           <span class="card-title" id="movie-title">
                               <!-- add the movie title here-->
@@ -91,23 +91,27 @@
 
         <footer class="page-footer">
               <div class="row">
-                <div class="col l6 s12">
+                <div id="api-section" class="col l6 s12">
                   <h5 class="white-text">API Attribution Section</h5>
-                  <p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer content.</p>
+                  <p class="grey-text text-lighten-4">Movie look up information provided by OMDb API.</p>
+                  <a href="https://www.omdbapi.com/" target="_blank" class="grey-text text-lighten-4">https://www.omdbapi.com/</p>
+                  <p class="grey-text text-lighten-4">Streaming data provided by Watchmode API.</p>
+                  <a href="https://api.watchmode.com/" target="_blank" class="grey-text text-lighten-4">https://api.watchmode.com/</p>
+
                 </div>
-                <div class="col l4 offset-l2 s12">
+                <div id="social-links" class="col l4 offset-l2 s12">
                   <h5 class="white-text">Share with friends</h5>
                   <ul>
-                    <li><a href="#" class="fa fa-facebook"></a></li>
-                    <li><a href="#" class="fa fa-twitter"></a></li>
-                    <li><a href="#" class="fa fa-instagram"></a></li>
-                    <li><a href="#" class="fa fa-youtube"></a></li>
+                    <li><a href="https://facebook.com" target="_blank" class="fa fa-facebook"></a></li>
+                    <li><a href="https://twitter.com" target="_blank" class="fa fa-twitter"></a></li>
+                    <li><a href="https://instagram.com" target="_blank" class="fa fa-instagram"></a></li>
+                    <li><a href="https://youtube.com" target="_blank" class="fa fa-youtube"></a></li>
                   </ul>  
                 </div>
               </div>
             </div>
             <div class="footer-copyright">
-              © 2022 Copyright Japes, Mogwai, Valerie
+              © 2022 Copyright by Japes, Mogwai, Valerie
               
               </div>
             </div>
