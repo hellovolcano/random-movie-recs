@@ -119,14 +119,15 @@ var queryMovie = function() {
 var queryServices = function(titleId) {
 
     var apiUrl = "https://api.watchmode.com/v1/title/" + titleId + "/sources/?apiKey=" + apiKeyWm 
-
+    
     // make a request to the url
     fetch(apiUrl)
         .then(function(response) {
         // request was successful
         if (response.ok) {
-           response.json().then(function(data) {
-                console.log(data)
+           return response.json()
+           .then(function(data) {
+                console.log(data);
            })
         } else {
             // TODO: Update this to write the error to the page instead of using an error
@@ -140,6 +141,27 @@ var queryServices = function(titleId) {
         })
 }
 
+
+
+var getStreamLinks = function(links) {
+    // reset links to blank
+    streamingLinksEl.textContent = ""
+
+    // unhide the links card since we're ready to display info!
+    streamingLinksEl.classList.remove("card-action");
+
+    // get the web link
+    var listEl = document.getElementById("#streaming-links");
+
+    // display in html
+    var linkArray = links.Url;
+    for(var i = 0; i < linkArray.length; i++) {
+    var listItem = document.createElement("li");
+    listItem.textContent = linkArray[i].web_url;
+    listEl.appendChild("card-action");
+    }
+
+}
 
 
 var getMovieInfo = function(array) {
@@ -183,6 +205,8 @@ var getMovieInfo = function(array) {
     // the director, year released, etc)
     movieCardPlotEl.textContent = moviePlot
 }
+
+
 
 // Function calls on page load
 loadSettings()
