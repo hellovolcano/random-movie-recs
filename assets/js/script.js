@@ -10,6 +10,10 @@ var movieCardPlotEl = document.querySelector("#movie-plot")
 var streamingLinksEl = document.querySelector("#streaming-links")
 var searchTerm = document.querySelector("#search-query")
 var searchForm = document.querySelector("#search-form")
+var altOfferingsDiv = document.querySelector("#alt-offerings")
+var forPurchaseEl = document.querySelector("#for-purchase")
+var forFreeEl = document.querySelector("#free-offerings")
+var forSubscriptionEl = document.querySelector("#other-subscription-offerings")
 
 var apiKey = "9bad881e"
 var apiKeyWm = "dezhiaeTxsUtpXsaOovSaiqfdtPCqBGaEazypOmf"
@@ -38,12 +42,9 @@ var saveSettingsHandler = function(event) {
 
         // if the streaming service is selected, add it to the streaming settings list
         if (isChecked) {
-
             streamingSettings.push(getServiceName)
         }
-
     }
-
     //save the settings to local storage
     saveSettings(streamingSettings)
 }
@@ -67,6 +68,7 @@ var loadSettings = function() {
     // find the checkbox with the correct ID and set the checked element to checked on load
     for (var i = 0; i < streamingSettings.length; i++) {
         var streamingCheckBox = document.getElementById(streamingSettings[i])
+        console.log(streamingCheckBox)
         streamingCheckBox.setAttribute("checked","checked")
     }
 }
@@ -129,6 +131,7 @@ var queryServices = function(titleId) {
         if (response.ok) {
            response.json().then(function(data) {
                 console.log(data)
+                checkAltServices(data)
            })
         } else {
             // Print an error to the page if we can't find streaming services
@@ -149,9 +152,7 @@ var queryServices = function(titleId) {
         })
 }
 
-var validateData = function(string) {
 
-}
 
 var getMovieInfo = function(array) {
     // reset the content to blank before each search so things don't get weird
@@ -225,6 +226,89 @@ var loadMovieSearch = function() {
     prevMovieSearchs = JSON.parse(localStorage.getItem("previous-search-titles")) || []
 }
 
+// create an array of objs that includes the name of the service and the link to the movie on that service (opts: to rent, to buy, to subscribe, totally free)
+var checkAltServices = function(movieArray) {
+    // initialize an array for each category that's returmed from the watchmode query
+    var altOfferings = []
+    var buyOfferings = []
+    var subOfferings = []
+    var freeOfferings = []
+
+
+    // build a new streaming settings array that matches what Watchmode returns
+    var subsToCompare = []
+
+    for (var i = 0; i < streamingSettings.length; i++) {
+        if (streamingSettings[i] == "prime") {
+            subsToCompare.push("Amazon Prime")
+        } else if (streamingSettings[i] == "hulu") {
+            subsToCompare.push("Hulu")
+        } else if (streamingSettings[i] == "hbomax") {
+            subsToCompare.push("HBO Max")
+        } else if (streamingSettings[i] == "netflix") {
+            subsToCompare.push("Netflix")
+        } else if (streamingSettings[i] == "disney") {
+            subsToCompare.push("Disney+")
+        }
+    }
+
+    // get each option that's returned and save it in to an object to evaluate
+    movieArray.forEach( (offering , index) => {
+        
+        var service = {
+            service: movieArray[index].name,
+            type: movieArray[index].type,
+            price: movieArray[index].price,
+            link: movieArray[index].web_url
+        }
+
+        // check to see if the user has selected the streaming service for the link; if they have not, push it to the alt services array
+        var isSubcription = false;
+
+        for(var i = 0; i <subsToCompare.length; i++) {
+            if(service.service == subsToCompare[i]) {
+                isSubcription = true
+            } else {
+            }
+        }
+
+        if (!isSubcription) {
+            // TODO: De-dupe the items that are being pushed here since there are multiplate entries coming from some services
+            altOfferings.push(service)
+        }
+
+    });
+    // function call to display the offerings
+    displayAltServices(altOfferings)
+}
+
+// function to build out each individual section, since we should be able to use the same logic
+var displayAltServices = function(array) {
+
+    // build lists to store each item
+    var forPurchaseListEl = document.createElement("ul")
+    var freeList = document.createElement("ul")
+    var subList = document.createElement("ul")
+
+    // TODO: BUILD IN LOGIC TO DYNAMICALLY GENERATE THE ALT-OPTIONS CARDS
+
+    for (var i = 0; i < array.length; i++) {
+        var movieItemLi = document.createElement("li")
+        movieItemLi.innerHTML = "<a href='" + array[i].link + "' target='_blank'>" + array[i].service + "</a>"
+
+        if (array[i].type == "rent" || array[i].type == "buy" ) {
+            forPurchaseListEl.append(movieItemLi)
+        } else if (array[i].type == "free") {
+            freeList.append(movieItemLi)
+        } else if (array[i].type == "sub") {
+            subList.append(movieItemLi)
+        }
+    }
+    // append these all and see what happens
+    forPurchaseEl.append(forPurchaseListEl)
+    forFreeEl.append(freeList)
+    forSubscriptionEl.append(subList)
+}
 
 // Function calls on page load
 loadSettings()
