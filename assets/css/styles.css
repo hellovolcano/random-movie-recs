@@ -3,10 +3,16 @@
     margin: 0;
 }
 
+/* Header Classes */
 h1  {
     text-shadow: 2px 2px 2px #1d0c0c;
     font-family: 'Lobster', cursive ;
     display: inline-block
+}
+
+h3 {
+    color: white;
+    text-shadow: 2px 2px 2px #1d0c0c;
 }
 
 /* Streaming Sources Styles */
@@ -25,7 +31,7 @@ i  {
     padding: 10px;
 }
 
-.movie-card {
+.hidden {
     display: none;
 }
 
@@ -36,7 +42,7 @@ i  {
 .section {
     /* background-color: #180d6a; */
     background-image: linear-gradient(rgb(255, 255, 255), rgb(9, 6, 54));
-    height: 500px;
+    min-height: 500px;
     width: auto;
 }
 
@@ -52,7 +58,7 @@ i  {
 
 }
 
-li  {
+footer li  {
     display: inline-block;
 }
 
@@ -70,22 +76,29 @@ li  {
     color: white;
   }
 
- #search-q-div {
+#search-q-div {
      width: 70%
  }
 
-  #search-Btn {
-
+#search-Btn {
       margin-left: 20px;
       width: auto;
 
   }
 
-  .flex {
+.flex {
       display: flex;
       /* flex-basis: 70%; */
   }
 
-  .alts {
-      margin: 0 25px;
+.alts {
+      margin: 0 15px;
+  }
+
+li {
+      display: list-item;
+  }
+
+li a {
+      color: white;
   }

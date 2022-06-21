@@ -14,6 +14,10 @@ var altOfferingsDiv = document.querySelector("#alt-offerings")
 var forPurchaseEl = document.querySelector("#for-purchase")
 var forFreeEl = document.querySelector("#free-offerings")
 var forSubscriptionEl = document.querySelector("#other-subscription-offerings")
+var forFreeDiv = document.querySelector("#free-div")
+var forBuyDiv = document.querySelector("#buy-div")
+var forSubDiv = document.querySelector("#sub-div")
+var altHeader = document.querySelector("#alt-stream-header")
 
 var apiKey = "9bad881e"
 var apiKeyWm = "dezhiaeTxsUtpXsaOovSaiqfdtPCqBGaEazypOmf"
@@ -159,7 +163,7 @@ var getMovieInfo = function(array) {
     posterEl.textContent = ""
 
     // unhide the movide card since we're ready to displaty info!
-    movieCardEl.classList.remove("movie-card")
+    movieCardEl.classList.remove("hidden")
 
     // build an object with the properties we can about for the movie
     var movieProperties = {
@@ -228,12 +232,8 @@ var loadMovieSearch = function() {
 
 // create an array of objs that includes the name of the service and the link to the movie on that service (opts: to rent, to buy, to subscribe, totally free)
 var checkAltServices = function(movieArray) {
-    // initialize an array for each category that's returmed from the watchmode query
-    var altOfferings = []
-    var buyOfferings = []
-    var subOfferings = []
-    var freeOfferings = []
-
+    // create a map to help is with the de-duping
+    var altOfferingsMap = new Map()
 
     // build a new streaming settings array that matches what Watchmode returns
     var subsToCompare = []
@@ -244,7 +244,7 @@ var checkAltServices = function(movieArray) {
         } else if (streamingSettings[i] == "hulu") {
             subsToCompare.push("Hulu")
         } else if (streamingSettings[i] == "hbomax") {
-            subsToCompare.push("HBO Max")
+            subsToCompare.push("HBO MAX")
         } else if (streamingSettings[i] == "netflix") {
             subsToCompare.push("Netflix")
         } else if (streamingSettings[i] == "disney") {
@@ -255,7 +255,7 @@ var checkAltServices = function(movieArray) {
     // get each option that's returned and save it in to an object to evaluate
     movieArray.forEach( (offering , index) => {
         
-        var service = {
+        var serviceObj = {
             service: movieArray[index].name,
             type: movieArray[index].type,
             price: movieArray[index].price,
@@ -266,24 +266,36 @@ var checkAltServices = function(movieArray) {
         var isSubcription = false;
 
         for(var i = 0; i <subsToCompare.length; i++) {
-            if(service.service == subsToCompare[i]) {
+            if(serviceObj.service == subsToCompare[i]) {
                 isSubcription = true
-            } else {
-            }
+            } 
         }
+
+
 
         if (!isSubcription) {
-            // TODO: De-dupe the items that are being pushed here since there are multiplate entries coming from some services
-            altOfferings.push(service)
+            // if it's not one of the streaming services they selected, add it to our map with the name of the service as the key to
+            // helps us eliminate duplicate values (since all links are the same)
+            altOfferingsMap.set(serviceObj.service, serviceObj)
         }
-
-    });
+        
+    })
     // function call to display the offerings
-    displayAltServices(altOfferings)
+    displayAltServices(altOfferingsMap)
 }
 
 // function to build out each individual section, since we should be able to use the same logic
-var displayAltServices = function(array) {
+var displayAltServices = function(map) {
+    // remove hidden class from the cards
+    forFreeDiv.classList.remove("hidden")
+    forBuyDiv.classList.remove("hidden")
+    forSubDiv.classList.remove("hidden")
+    altHeader.classList.remove("hidden")
+
+    // clear out the divs that we're appending to if there's content there already
+    forPurchaseEl.innerHTML = '<span class="card-title">For rent or purchase</span>'
+    forFreeEl.innertHTML = '<span class="card-title">Free Ways to Watch</span>'
+    forSubscriptionEl.innerHTML = '<span class="card-title">Available on these subscription services</span>'
 
     // build lists to store each item
     var forPurchaseListEl = document.createElement("ul")
@@ -291,23 +303,26 @@ var displayAltServices = function(array) {
     var subList = document.createElement("ul")
 
     // TODO: BUILD IN LOGIC TO DYNAMICALLY GENERATE THE ALT-OPTIONS CARDS
-
-    for (var i = 0; i < array.length; i++) {
+    // for (var i = 0; i < map.size; i++) {
+    map.forEach(function(value,key) {
+        var subLink = value;
         var movieItemLi = document.createElement("li")
-        movieItemLi.innerHTML = "<a href='" + array[i].link + "' target='_blank'>" + array[i].service + "</a>"
+        movieItemLi.innerHTML = "<a href='" + subLink.link + "' target='_blank'>" + key + "</a>"
 
-        if (array[i].type == "rent" || array[i].type == "buy" ) {
+        if (subLink.type == "rent" || subLink.type == "buy" ) {
             forPurchaseListEl.append(movieItemLi)
-        } else if (array[i].type == "free") {
+        } else if (subLink.type == "free") {
             freeList.append(movieItemLi)
-        } else if (array[i].type == "sub") {
+        } else if (subLink.type == "sub") {
             subList.append(movieItemLi)
         }
-    }
+    })
+    // }
     // append these all and see what happens
     forPurchaseEl.append(forPurchaseListEl)
     forFreeEl.append(freeList)
     forSubscriptionEl.append(subList)
+
 }
 
 // Function calls on page load
