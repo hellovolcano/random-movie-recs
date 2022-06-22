@@ -10,6 +10,15 @@ var movieCardPlotEl = document.querySelector("#movie-plot")
 var streamingLinksEl = document.querySelector("#streaming-links")
 var searchTerm = document.querySelector("#search-query")
 var searchForm = document.querySelector("#search-form")
+var altOfferingsDiv = document.querySelector("#alt-offerings")
+var forPurchaseEl = document.querySelector("#for-purchase")
+var forFreeEl = document.querySelector("#free-offerings")
+var forSubscriptionEl = document.querySelector("#other-subscription-offerings")
+var forFreeDiv = document.querySelector("#free-div")
+var forBuyDiv = document.querySelector("#buy-div")
+var forSubDiv = document.querySelector("#sub-div")
+var altHeader = document.querySelector("#alt-stream-header")
+var altSection = document.querySelector("#alt-offering-section")
 
 var apiKey = "9bad881e"
 var apiKeyWm = "dezhiaeTxsUtpXsaOovSaiqfdtPCqBGaEazypOmf"
@@ -38,12 +47,9 @@ var saveSettingsHandler = function(event) {
 
         // if the streaming service is selected, add it to the streaming settings list
         if (isChecked) {
-
             streamingSettings.push(getServiceName)
         }
-
     }
-
     //save the settings to local storage
     saveSettings(streamingSettings)
 }
@@ -92,7 +98,8 @@ var queryMovie = function(event) {
         // request was successful
         if (response.ok) {
            response.json().then(function(data) {
-
+                // Clear out the search box
+                searchTerm.value = ''
                // OMDb API appears returns an OK status, but Response: False (as a string) if the movie can't be found. Process that with a toast to a user.
                if (data.Response === "False") {
                 // specify what we want in the toast alert
@@ -129,6 +136,7 @@ var queryServices = function(titleId) {
         if (response.ok) {
            response.json().then(function(data) {
                 console.log(data)
+                checkAltServices(data)
            })
         } else {
             // Print an error to the page if we can't find streaming services
@@ -149,16 +157,14 @@ var queryServices = function(titleId) {
         })
 }
 
-var validateData = function(string) {
 
-}
 
 var getMovieInfo = function(array) {
     // reset the content to blank before each search so things don't get weird
     posterEl.textContent = ""
 
     // unhide the movide card since we're ready to displaty info!
-    movieCardEl.classList.remove("movie-card")
+    movieCardEl.classList.remove("hidden")
 
     // build an object with the properties we can about for the movie
     var movieProperties = {
@@ -225,6 +231,122 @@ var loadMovieSearch = function() {
     prevMovieSearchs = JSON.parse(localStorage.getItem("previous-search-titles")) || []
 }
 
+// create an array of objs that includes the name of the service and the link to the movie on that service (opts: to rent, to buy, to subscribe, totally free)
+var checkAltServices = function(movieArray) {
+    // create a map to help is with the de-duping
+    var altOfferingsMap = new Map()
+    var streamingOfferingMap = new Map()
+
+    // build a new streaming settings array that matches what Watchmode returns
+    var subsToCompare = []
+
+    for (var i = 0; i < streamingSettings.length; i++) {
+        if (streamingSettings[i] == "prime") {
+            subsToCompare.push("Amazon Prime")
+        } else if (streamingSettings[i] == "hulu") {
+            subsToCompare.push("Hulu")
+        } else if (streamingSettings[i] == "hbomax") {
+            subsToCompare.push("HBO MAX")
+        } else if (streamingSettings[i] == "netflix") {
+            subsToCompare.push("Netflix")
+        } else if (streamingSettings[i] == "disney") {
+            subsToCompare.push("Disney+")
+        }
+    }
+
+    // get each option that's returned and save it in to an object to evaluate
+    movieArray.forEach( (offering , index) => {
+        
+        var serviceObj = {
+            service: movieArray[index].name,
+            type: movieArray[index].type,
+            price: movieArray[index].price,
+            link: movieArray[index].web_url
+        }
+
+        // check to see if the user has selected the streaming service for the link; if they have not, push it to the alt services array
+        var isSubcription = false;
+
+        for(var i = 0; i <subsToCompare.length; i++) {
+            if(serviceObj.service == subsToCompare[i]) {
+                isSubcription = true
+            } 
+        }
+
+
+
+        if (!isSubcription) {
+            // if it's not one of the streaming services they selected, add it to our map with the name of the service as the key to
+            // helps us eliminate duplicate values (since all links are the same)
+            altOfferingsMap.set(serviceObj.service, serviceObj)
+        } else {
+            streamingOfferingMap.set(serviceObj.service, serviceObj)
+        }
+        
+    })
+    // function call to display the offerings
+    console.log(streamingOfferingMap) // replace with a function call that displays the streaming service options in the movie card
+    displayAltServices(altOfferingsMap)
+}
+
+// function to build out each individual section, since we should be able to use the same logic
+var displayAltServices = function(map) {
+    // remove hidden class from the cards
+    altSection.classList.remove("hidden")
+    altHeader.classList.remove("hidden")
+
+    // clear out the divs that we're appending to if there's content there already
+    forBuyDiv.innerHTML = ""
+    forFreeDiv.innerHTML = ""
+    forSubDiv.innerHTML = ""
+    
+
+    // build lists to store each item
+    var forPurchaseListEl = document.createElement("ul")
+    var freeList = document.createElement("ul")
+    var subList = document.createElement("ul")
+
+    // initialize counters so we know how much belong in each category
+    var buyCount = 0
+    var freeCount = 0
+    var subscribeCount = 0
+
+    // for each entry in the map, create a list item and add the link and service name
+    map.forEach(function(value,key) {
+        var subLink = value;
+        var movieItemLi = document.createElement("li")
+        movieItemLi.innerHTML = "<a href='" + subLink.link + "' target='_blank'>" + key + "</a>"
+
+        if (subLink.type == "rent" || subLink.type == "buy" ) {
+            forPurchaseListEl.append(movieItemLi)
+            buyCount++
+        } else if (subLink.type == "free") {
+            freeList.append(movieItemLi)
+            freeCount++
+        } else if (subLink.type == "sub") {
+            subList.append(movieItemLi)
+            subscribeCount++
+        }
+    })
+
+    // Append each list to the correct div as long as the list has entries
+    if (buyCount > 0) {
+        forBuyDiv.innerHTML = '<h4>For rent or purchase</h4>'
+        forBuyDiv.append(forPurchaseListEl) 
+    } 
+    
+    if (freeCount > 0) {
+        forFreeDiv.innerHTML = '<h4>Free!</h4>'
+        forFreeDiv.append(freeList) 
+    }
+    
+    if (subscribeCount > 0) {
+        forSubDiv.innerHTML = '<h4>Subscription services</h4>'
+        forSubDiv.append(subList)
+    }
+    
+
+}
 
 // Function calls on page load
 loadSettings()
@@ -234,9 +356,6 @@ checkSettings(streamingSettings)
 
 // save the settings when a user clicks the Save Settings button
 saveSettingsBtnEl.addEventListener("click" , saveSettingsHandler)
-
-// submit a query when we click the search button
-// searchBtn.addEventListener("click", queryMovie)
 
 // Listen for an "enter" press on the text field
 searchForm.addEventListener("submit", queryMovie)

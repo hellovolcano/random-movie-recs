@@ -40,7 +40,7 @@
                     </label>
                     <label class="streaming-sources" for="prime">
                         <input type="checkbox" id="prime" />
-                        <span>Prime</span>
+                        <span>Amazon Prime</span>
                     </label>
                     <label class="streaming-sources" for="hbomax">
                         <input type="checkbox" id="hbomax" />
@@ -75,7 +75,7 @@
 
                 </div>
                 <div id="movie-info" class="col l6 s12 center-align">
-                    <div class="card teal lighten-2 movie-card" id="movie-card-div">
+                    <div class="card teal lighten-2 hidden" id="movie-card-div">
                         <div class="card-content white-text" id="movie-card">
                           <span class="card-title" id="movie-title">
                               <!-- add the movie title here-->
@@ -88,18 +88,32 @@
                             <!-- add links to streaming services here -->
                         </div>
                     </div>
+                    <div class="alt-offering-section teal lighten-2 hidden" id="alt-offering-section">
+                        <h3 id="alt-stream-header" class="hidden">Other Ways to Stream</h3>
+                        <div id="alt-offerings" class="flex">
+                            
+                            <div class="alts" id="free-div">
+                                <!-- append for purchase movies here -->
+                            </div>
+                            <div class="alts" id="buy-div">
+                                <!-- append for purchase movies here -->
+                            </div>
+                            <div class="alts" id="sub-div">
+                                <!-- append for purchase movies here -->
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
+                
         </div>
-
+        </main>
         <footer class="page-footer">
               <div class="row">
                 <div id="api-section" class="col l6 s12">
                   <h5 class="white-text">API Attribution Section</h5>
-                  <p class="grey-text text-lighten-4">Movie look up information provided by OMDb API.</p>
-                  <a href="https://www.omdbapi.com/" target="_blank" class="grey-text text-lighten-4">https://www.omdbapi.com/</p>
-                  <p class="grey-text text-lighten-4">Streaming data provided by Watchmode API.</p>
-                  <a href="https://api.watchmode.com/" target="_blank" class="grey-text text-lighten-4">https://api.watchmode.com/</p>
+                  <p class="grey-text text-lighten-4">Movie information provided by <a href="https://www.omdbapi.com/" target="_blank">OMDb API</a>.</p>
+                  <p class="grey-text text-lighten-4">Streaming data provided by <a href="https://api.watchmode.com" target="_blank">Watchmode API</a>.</p>
 
                 </div>
                 <div id="social-links" class="col l4 offset-l2 s12">
@@ -120,7 +134,7 @@
             </div>
           </footer>
 
-    </main>
+    
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script src="./assets/js/script.js"></script>

@@ -24,6 +24,18 @@ h1  {
     font-family: 'Lobster', cursive ;
     display: inline-block
 }
+h3 {
+    font-size: 24px;
+    font-weight:300;
+    margin-top: 5px;
+    
+}
+
+h4 {
+    font-size: 20px;
+    margin: 5px auto 10px auto;
+    font-weight:300;
+}
 
 /* Streaming Sources Styles */
 .search-settings {
@@ -40,7 +52,7 @@ i  {
     padding: 10px;
 }
 
-.movie-card {
+.hidden {
     display: none;
 }
 
@@ -83,6 +95,15 @@ li  {
     color: white;
   }
 
+#search-q-div {
+     width: 70%
+ }
+
+#search-Btn {
+      margin-left: 20px;
+      width: auto;
+}
+
   @media screen and (max-width: 470px) {
     #search-query {
       flex: 1 100%;
@@ -108,6 +129,48 @@ li  {
   
   }
 
+.flex {
+      display: flex;
+  }
+
+#alt-offerings {
+    flex-direction: column;
+}  
+
+.alts {
+      margin: 0 15px;
+      flex: 1;
+      height: auto;
+  }
+
+.alt-offering-section {
+    padding: 15px;
+    box-shadow: 1px 1px 4px black;
+    color: white;
+    border-radius: 3px;
+}
+
+.alt-offering-section ul li {
+    list-style-type: circle;
+}
+
+a {
+      color: rgb(68, 13, 146);
+  }
+
+a:hover {
+    color: white;
+    text-decoration: underline;
+}  
+
+.alts ul li {
+    margin-left: 5px;
+}
+
+.alts ul li:not(:last-child):after { 
+    content: " \00b7";
+    color:rgb(68, 13, 146);
+};
   @media screen and (max-width: 780px) {
     #search-query {
       flex: 1 100%;
