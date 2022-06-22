@@ -18,6 +18,7 @@ var forFreeDiv = document.querySelector("#free-div")
 var forBuyDiv = document.querySelector("#buy-div")
 var forSubDiv = document.querySelector("#sub-div")
 var altHeader = document.querySelector("#alt-stream-header")
+var altSection = document.querySelector("#alt-offering-section")
 
 var apiKey = "9bad881e"
 var apiKeyWm = "dezhiaeTxsUtpXsaOovSaiqfdtPCqBGaEazypOmf"
@@ -72,7 +73,6 @@ var loadSettings = function() {
     // find the checkbox with the correct ID and set the checked element to checked on load
     for (var i = 0; i < streamingSettings.length; i++) {
         var streamingCheckBox = document.getElementById(streamingSettings[i])
-        console.log(streamingCheckBox)
         streamingCheckBox.setAttribute("checked","checked")
     }
 }
@@ -98,7 +98,8 @@ var queryMovie = function(event) {
         // request was successful
         if (response.ok) {
            response.json().then(function(data) {
-
+                // Clear out the search box
+                searchTerm.value = ''
                // OMDb API appears returns an OK status, but Response: False (as a string) if the movie can't be found. Process that with a toast to a user.
                if (data.Response === "False") {
                 // specify what we want in the toast alert
@@ -234,6 +235,7 @@ var loadMovieSearch = function() {
 var checkAltServices = function(movieArray) {
     // create a map to help is with the de-duping
     var altOfferingsMap = new Map()
+    var streamingOfferingMap = new Map()
 
     // build a new streaming settings array that matches what Watchmode returns
     var subsToCompare = []
@@ -277,33 +279,32 @@ var checkAltServices = function(movieArray) {
             // if it's not one of the streaming services they selected, add it to our map with the name of the service as the key to
             // helps us eliminate duplicate values (since all links are the same)
             altOfferingsMap.set(serviceObj.service, serviceObj)
+        } else {
+            streamingOfferingMap.set(serviceObj.service, serviceObj)
         }
         
     })
     // function call to display the offerings
+    console.log(streamingOfferingMap) // replace with a function call that displays the streaming service options in the movie card
     displayAltServices(altOfferingsMap)
 }
 
 // function to build out each individual section, since we should be able to use the same logic
 var displayAltServices = function(map) {
     // remove hidden class from the cards
-    forFreeDiv.classList.remove("hidden")
-    forBuyDiv.classList.remove("hidden")
-    forSubDiv.classList.remove("hidden")
+    altSection.classList.remove("hidden")
     altHeader.classList.remove("hidden")
 
     // clear out the divs that we're appending to if there's content there already
-    forPurchaseEl.innerHTML = '<span class="card-title">For rent or purchase</span>'
-    forFreeEl.innertHTML = '<span class="card-title">Free Ways to Watch</span>'
-    forSubscriptionEl.innerHTML = '<span class="card-title">Available on these subscription services</span>'
+    forBuyDiv.innerHTML = '<h4>For rent or purchase</h4>'
+    forFreeDiv.innerHTML = '<h4>Free!</h4>'
+    forSubDiv.innerHTML = '<h4>Subscription services</h4>'
 
     // build lists to store each item
     var forPurchaseListEl = document.createElement("ul")
     var freeList = document.createElement("ul")
     var subList = document.createElement("ul")
 
-    // TODO: BUILD IN LOGIC TO DYNAMICALLY GENERATE THE ALT-OPTIONS CARDS
-    // for (var i = 0; i < map.size; i++) {
     map.forEach(function(value,key) {
         var subLink = value;
         var movieItemLi = document.createElement("li")
@@ -317,11 +318,11 @@ var displayAltServices = function(map) {
             subList.append(movieItemLi)
         }
     })
-    // }
+
     // append these all and see what happens
-    forPurchaseEl.append(forPurchaseListEl)
-    forFreeEl.append(freeList)
-    forSubscriptionEl.append(subList)
+    forBuyDiv.append(forPurchaseListEl)
+    forFreeDiv.append(freeList)
+    forSubDiv.append(subList)
 
 }
 
@@ -333,9 +334,6 @@ checkSettings(streamingSettings)
 
 // save the settings when a user clicks the Save Settings button
 saveSettingsBtnEl.addEventListener("click" , saveSettingsHandler)
-
-// submit a query when we click the search button
-// searchBtn.addEventListener("click", queryMovie)
 
 // Listen for an "enter" press on the text field
 searchForm.addEventListener("submit", queryMovie)

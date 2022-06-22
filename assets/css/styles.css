@@ -9,10 +9,17 @@ h1  {
     font-family: 'Lobster', cursive ;
     display: inline-block
 }
-
 h3 {
-    color: white;
-    text-shadow: 2px 2px 2px #1d0c0c;
+    font-size: 24px;
+    font-weight:300;
+    margin-top: 5px;
+    
+}
+
+h4 {
+    font-size: 20px;
+    margin: 5px auto 10px auto;
+    font-weight:300;
 }
 
 /* Streaming Sources Styles */
@@ -58,7 +65,7 @@ i  {
 
 }
 
-footer li  {
+li  {
     display: inline-block;
 }
 
@@ -88,17 +95,43 @@ footer li  {
 
 .flex {
       display: flex;
-      /* flex-basis: 70%; */
   }
+
+#alt-offerings {
+    flex-direction: column;
+}  
 
 .alts {
       margin: 0 15px;
+      flex: 1;
+      height: auto;
   }
 
-li {
-      display: list-item;
-  }
+.alt-offering-section {
+    padding: 15px;
+    box-shadow: 1px 1px 4px black;
+    color: white;
+    border-radius: 3px;
+}
+
+.alt-offering-section ul li {
+    list-style-type: circle;
+}
 
 li a {
-      color: white;
+      color: rgb(68, 13, 146);
   }
+
+li a:hover {
+    color: white;
+    text-decoration: underline;
+}  
+
+.alts ul li {
+    margin-left: 5px;
+}
+
+.alts ul li:not(:last-child):after { 
+    content: " \00b7";
+    color:rgb(68, 13, 146);
+};
