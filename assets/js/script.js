@@ -1,3 +1,9 @@
+// Initialize modal
+document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.modal');
+    var instances = M.Modal.init(elems);
+  });
+
 // element selectors
 var saveSettingsBtnEl = document.querySelector("#save-settings")
 var searchBtn = document.querySelector("#search-Btn")
