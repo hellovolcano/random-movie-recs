@@ -296,15 +296,22 @@ var displayAltServices = function(map) {
     altHeader.classList.remove("hidden")
 
     // clear out the divs that we're appending to if there's content there already
-    forBuyDiv.innerHTML = '<h4>For rent or purchase</h4>'
-    forFreeDiv.innerHTML = '<h4>Free!</h4>'
-    forSubDiv.innerHTML = '<h4>Subscription services</h4>'
+    forBuyDiv.innerHTML = ""
+    forFreeDiv.innerHTML = ""
+    forSubDiv.innerHTML = ""
+    
 
     // build lists to store each item
     var forPurchaseListEl = document.createElement("ul")
     var freeList = document.createElement("ul")
     var subList = document.createElement("ul")
 
+    // initialize counters so we know how much belong in each category
+    var buyCount = 0
+    var freeCount = 0
+    var subscribeCount = 0
+
+    // for each entry in the map, create a list item and add the link and service name
     map.forEach(function(value,key) {
         var subLink = value;
         var movieItemLi = document.createElement("li")
@@ -312,17 +319,32 @@ var displayAltServices = function(map) {
 
         if (subLink.type == "rent" || subLink.type == "buy" ) {
             forPurchaseListEl.append(movieItemLi)
+            buyCount++
         } else if (subLink.type == "free") {
             freeList.append(movieItemLi)
+            freeCount++
         } else if (subLink.type == "sub") {
             subList.append(movieItemLi)
+            subscribeCount++
         }
     })
 
-    // append these all and see what happens
-    forBuyDiv.append(forPurchaseListEl)
-    forFreeDiv.append(freeList)
-    forSubDiv.append(subList)
+    // Append each list to the correct div as long as the list has entries
+    if (buyCount > 0) {
+        forBuyDiv.innerHTML = '<h4>For rent or purchase</h4>'
+        forBuyDiv.append(forPurchaseListEl) 
+    } 
+    
+    if (freeCount > 0) {
+        forFreeDiv.innerHTML = '<h4>Free!</h4>'
+        forFreeDiv.append(freeList) 
+    }
+    
+    if (subscribeCount > 0) {
+        forSubDiv.innerHTML = '<h4>Subscription services</h4>'
+        forSubDiv.append(subList)
+    }
+    
 
 }
 
