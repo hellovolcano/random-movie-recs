@@ -3,6 +3,22 @@
     margin: 0;
 }
 
+#search-q-div {
+    width: 70%
+}
+
+ #search-Btn {
+
+     margin-left: 20px;
+     width: auto;
+
+ }
+
+ .flex {
+     display: flex;
+     /* flex-basis: 70%; */
+ }
+
 h1  {
     text-shadow: 2px 2px 2px #1d0c0c;
     font-family: 'Lobster', cursive ;
@@ -34,7 +50,7 @@ i  {
 
 .section {
     background-image: linear-gradient(rgb(255, 255, 255), rgb(56, 60, 60));
-    height: 500px;
+    min-height: 500px;
     width: auto;
 }
 
@@ -125,18 +141,3 @@ li  {
     }
 }
   
- #search-q-div {
-     width: 70%
- }
-
-  #search-Btn {
-
-      margin-left: 20px;
-      width: auto;
-
-  }
-
-  .flex {
-      display: flex;
-      /* flex-basis: 70%; */
-  }
