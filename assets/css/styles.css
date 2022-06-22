@@ -123,5 +123,20 @@ li  {
         min-height: 500px;
         width: auto;
     }
+}
   
+ #search-q-div {
+     width: 70%
+ }
+
+  #search-Btn {
+
+      margin-left: 20px;
+      width: auto;
+
+  }
+
+  .flex {
+      display: flex;
+      /* flex-basis: 70%; */
   }
