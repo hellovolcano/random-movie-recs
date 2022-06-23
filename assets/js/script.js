@@ -287,7 +287,37 @@ var checkAltServices = function(movieArray) {
     // function call to display the offerings
     console.log(streamingOfferingMap) // replace with a function call that displays the streaming service options in the movie card
     displayAltServices(altOfferingsMap)
+    displaySelServices(streamingOfferingMap) 
 }
+
+// function to build out each individual section, since we should be able to use the same logic
+var displaySelServices = function(map) {
+
+    // clear out the divs that we're appending to if there's content there already
+    streamingLinksEl.innerHTML = ""
+  
+    // build lists to store each item
+    var forSelectListEl = document.createElement("ul")
+
+    // initialize counters so we know how much belong in each category
+    var selCount = 0
+
+    // for each entry in the map, create a list item and add the link and service name
+    map.forEach(function(value,key) {
+        var selLink = value;
+        var selItemLi = document.createElement("li")
+        selItemLi.innerHTML = "<a href='" + selLink.link + "' target='_blank'>" + key + "</a>"
+                
+        streamingLinksEl.innerHTML = '<h4>Selected services:</h4>'
+        selItemLi.append(forSelectListEl);
+        streamingLinksEl.append(selItemLi);
+    })
+
+
+    console.log(displaySelServices);
+
+}
+
 
 // function to build out each individual section, since we should be able to use the same logic
 var displayAltServices = function(map) {
