@@ -110,6 +110,7 @@ var queryMovie = function(event) {
 
                // otherwise, we're okay to process the data that gets passed in
                 getMovieInfo(data)
+                cagify(data)
            })
         } else {
             // Display a toast instead of an alert
@@ -346,6 +347,23 @@ var displayAltServices = function(map) {
     }
     
 
+}
+
+// Display a wonderful picture of Nicolas Cage when they view a Nicolas Cage movie
+var cagify = function(array) {
+    // hide image at the start of the search
+    cagedEl.classList.add("hidden")
+
+    var actorSearch = array.Actors;
+    var actorArray = actorSearch.split(',')
+    for (var i = 0; i < actorArray.length; i++) {
+        actorArray[i] = actorArray[i].trim()
+    }
+
+    var isCageMovie = actorArray.indexOf("Nicolas Cage")
+    if (isCageMovie !== -1) {
+        cagedEl.classList.remove("hidden")
+    }
 }
 
 // Function calls on page load

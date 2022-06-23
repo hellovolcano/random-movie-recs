@@ -170,7 +170,18 @@ a:hover {
 .alts ul li:not(:last-child):after { 
     content: " \00b7";
     color:rgb(68, 13, 146);
-};
+}
+
+#caged {
+    position: fixed;
+    bottom: 0;
+    right: 0px;
+    z-index: 1;
+    margin: 0;
+    padding: 0;
+    width: 210px;
+
+}
   @media screen and (max-width: 780px) {
     #search-query {
       flex: 1 100%;
