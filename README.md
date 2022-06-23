@@ -13,8 +13,8 @@ Materialize framework
 
 ## Screenshot & Link
 
-![screenshot](./assets/images/portfolio%20screen%20shot.png)
-https://jpboo888.github.io/portfolio1/
+![screenshot](./assets/screenshot%20istreamustream.jpg)
+https://hellovolcano.github.io/random-movie-recs/
 
 ## Contributing
 
