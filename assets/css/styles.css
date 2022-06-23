@@ -3,22 +3,10 @@
     margin: 0;
 }
 
-#search-q-div {
-    width: 70%
-}
+/* ===================================*/
+/* HEADER STYLES */
 
- #search-Btn {
-
-     margin-left: 20px;
-     width: auto;
-
- }
-
- .flex {
-     display: flex;
-     /* flex-basis: 70%; */
- }
-
+/* Heading styles */
 h1  {
     text-shadow: 2px 2px 2px #1d0c0c;
     font-family: 'Lobster', cursive ;
@@ -37,7 +25,18 @@ h4 {
     font-weight:300;
 }
 
-/* Streaming Sources Styles */
+/* Search Bar Styles */
+#search-q-div {
+    width: 70%
+}
+
+#search-Btn {
+
+    margin-left: 20px;
+    width: auto;
+
+}
+
 .search-settings {
     background-color: lightgray;
     padding: 10px;
@@ -47,15 +46,48 @@ i  {
     color: white;
     float: right;
 }
+
+.heading  {
+    background-image: linear-gradient(to top right, rgb(30, 207, 184), rgb(68, 13, 146));
+    padding-top: 20px;
+    padding-left: 20px;
+    padding-bottom: 20px;
+}
+
+/* Additional modal styling */
 .streaming-sources {
     margin: 0 10px;
     padding: 10px;
 }
 
+/* ===================================*/
+
+
+/* UTILITY STYLES */
+.flex {
+     display: flex;
+ }
+
 .hidden {
     display: none;
 }
 
+li  {
+    display: inline-block;
+}
+
+a {
+    color: rgb(68, 13, 146);
+}
+
+a:hover {
+  color: white;
+  text-decoration: underline;
+}  
+/* ===================================*/
+
+
+/* MOVIE INFO SECTION STYLES */
 #movie-poster  {
     justify-items: auto;
 }
@@ -66,73 +98,24 @@ i  {
     width: auto;
 }
 
-.heading  {
-    background-image: linear-gradient(to top right, rgb(30, 207, 184), rgb(68, 13, 146));
-    padding-top: 20px;
-    padding-left: 20px;
-    padding-bottom: 20px;
+/* Styles to display the streaming sources users are actively searching in */
+.streaming-service-display {
+    margin-left: 5px;
 }
 
-.page-footer  {
-    background-image: linear-gradient(to bottom right, rgb(30, 207, 184), rgb(68, 13, 146));
+.streaming-service-display:not(:last-child):after {
+    content: " \00b7";
 }
 
-li  {
-    display: inline-block;
+.intro-container {
+    margin: 5px 0 5px 30px;
 }
 
-.fa-facebook,
-.fa-twitter,
-.fa-instagram, 
-.fa-youtube {
-    padding: 10px;
-    margin: 5px;
-    font-size: 30px;
-    width: 30px;
-    text-align: center;
-    text-decoration: none;
-    border-radius: 50%;
-    color: white;
-  }
-
-#search-q-div {
-     width: 70%
- }
-
-#search-Btn {
-      margin-left: 20px;
-      width: auto;
-}
-
-  @media screen and (max-width: 470px) {
-    #search-query {
-      flex: 1 100%;
-      width: 100%;
-    }
+/* Styles for the streaming source links */
 
 
-    h1  {
-        text-align: center;
-    }
 
-    #search-Btn  {
-        width: 100%;
-    }
-
-    #social-links  {
-        text-align: center;
-    }
-
-    #api-section  {
-        display: none;
-    }
-  
-  }
-
-.flex {
-      display: flex;
-  }
-
+/* Styles for the alternate streaming offerings section */
 #alt-offerings {
     flex-direction: column;
 }  
@@ -154,15 +137,6 @@ li  {
     list-style-type: circle;
 }
 
-a {
-      color: rgb(68, 13, 146);
-  }
-
-a:hover {
-    color: white;
-    text-decoration: underline;
-}  
-
 .alts ul li {
     margin-left: 5px;
 }
@@ -172,25 +146,62 @@ a:hover {
     color:rgb(68, 13, 146);
 }
 
-.streaming-service-display {
-    margin-left: 5px;
+/* ===================================*/
+/* FOOTER STYLES */
+.page-footer  {
+    background-image: linear-gradient(to bottom right, rgb(30, 207, 184), rgb(68, 13, 146));
 }
 
-.streaming-service-display:not(:last-child):after {
-    content: " \00b7";
-}
+.fa-facebook,
+.fa-twitter,
+.fa-instagram, 
+.fa-youtube {
+    padding: 10px;
+    margin: 5px;
+    font-size: 30px;
+    width: 30px;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 50%;
+    color: white;
+  }
 
-.intro-container {
-    margin: 5px 0 5px 30px;
-}
-  @media screen and (max-width: 780px) {
+/* ===================================*/
+/* MEDIA QUERIES */  
+@media screen and (max-width: 470px) {
     #search-query {
-      flex: 1 100%;
-      width: 100%;
+        flex: 1 100%;
+        width: 100%;
+    }
+
+
+    h1  {
+        text-align: center;
+    }
+
+    #search-Btn  {
+        width: 100%;
+    }
+
+    #social-links  {
+        text-align: center;
+    }
+
+    #api-section  {
+        display: none;
+    }
+  
+}
+
+
+@media screen and (max-width: 780px) {
+    #search-query {
+        flex: 1 100%;
+        width: 100%;
     }
 
     #streaming-settings  {
-      flex: 0 100%;
+        flex: 0 100%;
     }
 
     .streaming-sources  {
