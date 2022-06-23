@@ -1,3 +1,9 @@
+// Initialize modal
+document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.modal');
+    var instances = M.Modal.init(elems);
+  });
+
 // element selectors
 var saveSettingsBtnEl = document.querySelector("#save-settings")
 var searchBtn = document.querySelector("#search-Btn")
@@ -19,6 +25,8 @@ var forBuyDiv = document.querySelector("#buy-div")
 var forSubDiv = document.querySelector("#sub-div")
 var altHeader = document.querySelector("#alt-stream-header")
 var altSection = document.querySelector("#alt-offering-section")
+var searchSettingsDisplay = document.querySelector("#current-streaming-searches")
+var introEl = document.querySelector("#intro-text")
 
 var apiKey = "9bad881e"
 var apiKeyWm = "dezhiaeTxsUtpXsaOovSaiqfdtPCqBGaEazypOmf"
@@ -27,6 +35,27 @@ var apiKeyWm = "dezhiaeTxsUtpXsaOovSaiqfdtPCqBGaEazypOmf"
 var streamingSettings = []
 var prevMovieSearchs = []
 
+// build a new streaming settings array that matches what Watchmode returns
+var subsToCompare = []
+
+var convertStreamingSettings = function(array) {
+    // initialize back to empty before the user saves
+    subsToCompare = []
+
+    for (var i = 0; i < streamingSettings.length; i++) {
+        if (streamingSettings[i] == "prime") {
+            subsToCompare.push("Amazon Prime")
+        } else if (streamingSettings[i] == "hulu") {
+            subsToCompare.push("Hulu")
+        } else if (streamingSettings[i] == "hbomax") {
+            subsToCompare.push("HBO MAX")
+        } else if (streamingSettings[i] == "netflix") {
+            subsToCompare.push("Netflix")
+        } else if (streamingSettings[i] == "disney") {
+            subsToCompare.push("Disney+")
+        }
+    }
+}
 
 var saveSettingsHandler = function(event) {
     event.preventDefault()
@@ -60,6 +89,9 @@ var saveSettings = function(array) {
 
     // handle the search button status if they've saved items
     checkSettings(array)
+
+    // create the array that has the actual 
+    convertStreamingSettings(streamingSettings)
 }
 
 // load user settings from local storage
@@ -74,7 +106,11 @@ var loadSettings = function() {
     for (var i = 0; i < streamingSettings.length; i++) {
         var streamingCheckBox = document.getElementById(streamingSettings[i])
         streamingCheckBox.setAttribute("checked","checked")
+
+        // add the streaming services we're currently searching 
     }
+
+    convertStreamingSettings(streamingSettings)
 }
 
 // disables the search button if there are no settings saved and enables it if there are
@@ -157,11 +193,32 @@ var queryServices = function(titleId) {
         })
 }
 
+var displaySearchSettings = function(streamingServiceArray) {
+    // clear out section before each search
+    searchSettingsDisplay.textContent = ''
+
+    var streamingP = document.createElement("span")
+    streamingP.textContent = "Displaying results for: "
+
+    searchSettingsDisplay.append(streamingP)
+    // loop through the fancified streaming service names and add them to the main section
+    for (var i = 0; i < streamingServiceArray.length; i++) {
+        var streamingServiceItem = document.createElement("span")
+        streamingServiceItem.classList.add("streaming-service-display")
+        streamingServiceItem.textContent = streamingServiceArray[i]
+
+        searchSettingsDisplay.append(streamingServiceItem)
+    }
+
+}
 
 
 var getMovieInfo = function(array) {
     // reset the content to blank before each search so things don't get weird
     posterEl.textContent = ""
+
+    // diplay which streaming services we're searching against
+    displaySearchSettings(subsToCompare)
 
     // unhide the movide card since we're ready to displaty info!
     movieCardEl.classList.remove("hidden")
@@ -237,22 +294,6 @@ var checkAltServices = function(movieArray) {
     var altOfferingsMap = new Map()
     var streamingOfferingMap = new Map()
 
-    // build a new streaming settings array that matches what Watchmode returns
-    var subsToCompare = []
-
-    for (var i = 0; i < streamingSettings.length; i++) {
-        if (streamingSettings[i] == "prime") {
-            subsToCompare.push("Amazon Prime")
-        } else if (streamingSettings[i] == "hulu") {
-            subsToCompare.push("Hulu")
-        } else if (streamingSettings[i] == "hbomax") {
-            subsToCompare.push("HBO MAX")
-        } else if (streamingSettings[i] == "netflix") {
-            subsToCompare.push("Netflix")
-        } else if (streamingSettings[i] == "disney") {
-            subsToCompare.push("Disney+")
-        }
-    }
 
     // get each option that's returned and save it in to an object to evaluate
     movieArray.forEach( (offering , index) => {
