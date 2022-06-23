@@ -111,9 +111,16 @@ a:hover {
     margin: 5px 0 5px 30px;
 }
 
+hr {
+    border: none;
+    height: 1px;
+    color: white;
+    width: 80%;
+}
+
 /* Styles for the streaming source links */
 
-#streaming-links {
+/* #streaming-links {
     flex-direction: column;
 }
 
@@ -130,9 +137,29 @@ a:hover {
     list-style-type: circle;
     margin-left: 5px;
     color:rgb(68, 13, 146);
+} */
+
+#streaming-links ul li:not(:last-child):after {
+    content: " \00b7";
+    color:rgb(68, 13, 146);
 }
 
+#streaming-links {
+    padding: 15px 0 25px 0;
 
+}
+
+hr {
+    border: none;
+    height: 1px;
+    background-color: white;
+    width: 80%;
+    margin: 0 auto;
+}
+
+.intro-container {
+    margin: 5px 0 5px 30px;
+}
 
 
 /* Styles for the alternate streaming offerings section */

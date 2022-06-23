@@ -336,7 +336,7 @@ var checkAltServices = function(movieArray) {
 var displaySelServices = function(map) {
 
     // clear out the divs that we're appending to if there's content there already
-    streamingLinksEl.innerHTML = ""
+    // streamingLinksEl.innerHTML = ""
   
     // build lists to store each item
     var forSelectListEl = document.createElement("ul")
@@ -349,11 +349,21 @@ var displaySelServices = function(map) {
         var selLink = value;
         var selItemLi = document.createElement("li")
         selItemLi.innerHTML = "<a href='" + selLink.link + "' target='_blank'>" + key + "</a>"
-                
-        streamingLinksEl.innerHTML = '<h4>Selected services:</h4>'
-        selItemLi.append(forSelectListEl);
-        streamingLinksEl.append(selItemLi);
+        
+        streamingLinksEl.innerHTML = "<h4>Stream Now</h4>"
+        
+        forSelectListEl.append(selItemLi);
+        selCount++
     })
+
+    if (selCount > 0) {
+        streamingLinksEl.append(forSelectListEl)
+    } else {
+        var noMovieError = document.createElement("p")
+        noMovieError.textContent = "We couldn't find the movie available for streaming on any of your selected services. Please see the list below for additional options!"
+        
+        streamingLinksEl.append(noMovieError)
+    }
 
 
 }
