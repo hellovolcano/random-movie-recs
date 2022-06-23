@@ -180,8 +180,20 @@ a:hover {
     margin: 0;
     padding: 0;
     width: 210px;
-
 }
+
+.streaming-service-display {
+    margin-left: 5px;
+}
+
+.streaming-service-display:not(:last-child):after {
+    content: " \00b7";
+}
+
+.intro-container {
+    margin: 5px 0 5px 30px;
+}
+
   @media screen and (max-width: 780px) {
     #search-query {
       flex: 1 100%;
@@ -214,4 +226,4 @@ a:hover {
         width: auto;
     }
 }
-  
+
