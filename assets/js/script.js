@@ -356,8 +356,6 @@ var displaySelServices = function(map) {
     })
 
 
-    console.log(displaySelServices);
-
 }
 
 

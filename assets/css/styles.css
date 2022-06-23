@@ -113,6 +113,26 @@ a:hover {
 
 /* Styles for the streaming source links */
 
+#streaming-links {
+    flex-direction: column;
+}
+
+.card-action {
+    margin: 0 15px;
+    flex: 1;
+    height: auto;
+    padding: 15px;
+    color: white;
+    border-radius: 3px;
+}
+
+.card-action ul li {
+    list-style-type: circle;
+    margin-left: 5px;
+    color:rgb(68, 13, 146);
+}
+
+
 
 
 /* Styles for the alternate streaming offerings section */
