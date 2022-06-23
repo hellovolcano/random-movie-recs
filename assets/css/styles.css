@@ -157,11 +157,14 @@ hr {
     margin: 0 auto;
 }
 
-.intro-container {
+.top-container {
     margin: 5px 0 5px 30px;
 }
 
-
+#intro-content {
+    width: 75%;
+    margin: 0 auto;
+}
 /* Styles for the alternate streaming offerings section */
 #alt-offerings {
     flex-direction: column;
