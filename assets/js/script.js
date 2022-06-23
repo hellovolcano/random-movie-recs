@@ -26,7 +26,7 @@ var forSubDiv = document.querySelector("#sub-div")
 var altHeader = document.querySelector("#alt-stream-header")
 var altSection = document.querySelector("#alt-offering-section")
 var searchSettingsDisplay = document.querySelector("#current-streaming-searches")
-var introEl = document.querySelector("#intro-text")
+var introEl = document.querySelector("#intro-content")
 
 var apiKey = "9bad881e"
 var apiKeyWm = "dezhiaeTxsUtpXsaOovSaiqfdtPCqBGaEazypOmf"
@@ -136,6 +136,9 @@ var queryMovie = function(event) {
            response.json().then(function(data) {
                 // Clear out the search box
                 searchTerm.value = ''
+
+                // Clear out the intro text
+                introEl.textContent = ''
                // OMDb API appears returns an OK status, but Response: False (as a string) if the movie can't be found. Process that with a toast to a user.
                if (data.Response === "False") {
                 // specify what we want in the toast alert
@@ -179,9 +182,14 @@ var queryServices = function(titleId) {
             // Print an error to the page if we can't find streaming services
             var noStreamingServices = document.createElement("p")
             noStreamingServices.classList.add("error-message")
-            noStreamingServices.textContent = "Could not find any streaming services for " + searchTerm.value
+            noStreamingServices.textContent = "Could not find any streaming services."
 
-            movieInfoEl.append(noStreamingServices)
+            // Hide the alt services div if it's already displayed
+            altSection.classList.add("hidden")
+
+            // Clear the streaming links div and add the error there
+            streamingLinksEl.textContent = ''
+            streamingLinksEl.append(noStreamingServices)
         }
     })
         .catch(function(error) {
@@ -281,6 +289,7 @@ var getMovieInfo = function(array) {
 
 }
 
+// Save movie searches to history -- enables future features
 var saveMovieSearch = function(array) {
     localStorage.setItem("previous-search-titles", JSON.stringify(array))
 }
@@ -327,9 +336,44 @@ var checkAltServices = function(movieArray) {
         
     })
     // function call to display the offerings
-    console.log(streamingOfferingMap) // replace with a function call that displays the streaming service options in the movie card
     displayAltServices(altOfferingsMap)
+    displaySelServices(streamingOfferingMap) 
 }
+
+// function to build out each individual section, since we should be able to use the same logic
+var displaySelServices = function(map) {
+
+    // clear out the divs that we're appending to if there's content there already
+    streamingLinksEl.textContent = ""
+  
+    // build lists to store each item
+    var forSelectListEl = document.createElement("ul")
+
+    // initialize counters so we know how much belong in each category
+    var selCount = 0
+
+    // for each entry in the map, create a list item and add the link and service name
+    map.forEach(function(value,key) {
+        var selLink = value;
+        var selItemLi = document.createElement("li")
+        selItemLi.innerHTML = "<a href='" + selLink.link + "' target='_blank'>" + key + "</a>"
+        
+        forSelectListEl.append(selItemLi);
+        selCount++
+    })
+
+    if (selCount > 0) {
+        streamingLinksEl.append(forSelectListEl)
+    } else {
+        var noMovieError = document.createElement("p")
+        noMovieError.textContent = "We couldn't find the movie available for streaming on any of your selected services. Please see the list below for additional options!"
+        
+        streamingLinksEl.append(noMovieError)
+    }
+
+
+}
+
 
 // function to build out each individual section, since we should be able to use the same logic
 var displayAltServices = function(map) {
