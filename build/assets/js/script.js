@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // element selectors
 var saveSettingsBtnEl = document.querySelector("#save-settings")
-var searchBtn = document.querySelector("#search-Btn")
+var searchBtn = document.querySelector("#search-btn")
 var cagedEl = document.querySelector("#caged")
 var posterEl = document.querySelector("#movie-poster")
 var movieInfoEl = document.querySelector("#movie-info")
@@ -164,7 +164,7 @@ var queryMovie = function(event) {
         })
 }
 
-// Make an watchmode API call to get information about the selected streaming services
+// Make a watchmode API call to get information about the selected streaming services
 var queryServices = function(titleId) {
 
     var apiUrl = "https://api.watchmode.com/v1/title/" + titleId + "/sources/?apiKey=" + apiKeyWm 
