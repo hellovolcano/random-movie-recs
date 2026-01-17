@@ -13,6 +13,16 @@ app.use(express.json());
 app.use("/api/movies", moviesRouter);
 app.use("/api/sources", sourcesRouter);
 
+
+if (process.env.NODE_ENV === "production") {
+  const __dirname = path.resolve();
+  app.use(express.static(path.join(__dirname, "client", "build")));
+
+  app.get("*", (_req, res) => {
+    res.sendFile(path.join(__dirname, "client", "build", "index.html"));
+  });
+}
+
 // Catch-all 404
 app.use((req, res) => {
   res.status(404).json({ error: 'Not found' });

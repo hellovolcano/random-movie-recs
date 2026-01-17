@@ -11,7 +11,9 @@
   "scripts": {
     "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
     "dev:server": "npm --prefix server run dev",
-    "dev:client": "npm --prefix client start"
+    "dev:client": "npm --prefix client start",
+    "start": "node server/server.js",
+    "heroku-postbuild": "npm --prefix client install && npm --prefix client run build && npm --prefix server install"
   },
   "eslintConfig": {
     "extends": [
