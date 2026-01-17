@@ -2,6 +2,11 @@ import express from 'express';
 import "dotenv/config";
 import moviesRouter from './src/routes/movies.js';
 import sourcesRouter from './src/routes/sources.js'
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT ?? 3000;
@@ -15,11 +20,9 @@ app.use("/api/sources", sourcesRouter);
 
 
 if (process.env.NODE_ENV === "production") {
-  const __dirname = path.resolve();
-  app.use(express.static(path.join(__dirname, "client", "build")));
-
-  app.get("*", (_req, res) => {
-    res.sendFile(path.join(__dirname, "client", "build", "index.html"));
+    app.use(express.static(path.join(__dirname, "..", "client", "build")));
+    app.get("*", (_req, res) => {
+    res.sendFile(path.join(__dirname, "..", "client", "build", "index.html"));
   });
 }
 
