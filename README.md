@@ -1,24 +1,15 @@
-# iScream uScream
+# Find a Movie
 
-This web app was designed to help a user find where any movie is currently streaming.  iStream uStream uses Materialize CSS framework, and features the use of two server-side APIs(OMDb API & Watchmode API), to first locate a users searched for movie, and then, to identify and present user with links to where the movie is currently streaming.  This application also showcases a polished UI and mobile responsiveness.  
+This web app was designed to help a user find where any movie is currently streaming. Originally written in only HTML/CSS/Vanilla JS, but refactored into a react application leveraging MUI components. Server-side calls made to OMDb API & Watchmode API.
 
-## Built With
 
-HTML
-CSS
-JavaScript
-OMBb API
-Watchmode API
-Materialize framework
-
-## Screenshot & Link
-
-![screenshot](./assets/screenshot%20istreamustream.jpg)
-https://hellovolcano.github.io/random-movie-recs/
+## Deployed App
+[Find A Movie](https://find-a-movie-5e830608c35b.herokuapp.com/)
 
 ## Contributing
+Full UI and architecture overhaul by [me](https://www.valeriegleason.com)
 
-Made with ❤️ by 
+Original Made with ❤️ by 
 Juan Pablo Maldonado https://jpboo888.github.io/portfolio1/
 Valerie Gleason https://hellovolcano.github.io/portfolio
 Mogwai Turner https://mogwaiturner.github.io/Portfolio/

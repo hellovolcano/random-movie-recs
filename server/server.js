@@ -1,7 +1,7 @@
 import express from 'express';
 import "dotenv/config";
 import moviesRouter from './src/routes/movies.js';
-import sourcesRouter from './src/routes/sources.js'
+import sourcesRouter from './src/routes/sources.js';
 import path from "path";
 import { fileURLToPath } from "url";
 
