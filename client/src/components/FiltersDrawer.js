@@ -127,10 +127,16 @@ export default function FiltersDrawer({
         <Divider sx={{ my: 2 }} />
 
         <Button
-          variant="outlined"
+          variant="contained"
           fullWidth
           onClick={() => setSelectedServices([])}
           disabled={selectedServices.length === 0}
+          sx={{
+            bgcolor: "primary.main",
+            color: "black",
+            border: "1px solid black",
+            "&:hover": { bgcolor: "primary.dark" },
+          }}
         >
           Clear filters
         </Button>

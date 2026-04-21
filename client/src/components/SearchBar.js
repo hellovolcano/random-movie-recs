@@ -6,7 +6,7 @@ export default function SearchBar({ value, onChange, onSubmit, loading, autoFocu
     <Box
       component="form"
       onSubmit={onSubmit}
-      sx={{ display: "flex", gap: 1.5, width: "100%", maxWidth: 720 }}
+      sx={{ display: "flex", gap: 1.5, width: "100%", maxWidth: 480 }}
     >
       <TextField
         fullWidth
